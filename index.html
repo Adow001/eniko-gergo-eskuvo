@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Enikő & Gergő esküvője</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(120deg, #fff5f8, #fff9f5);
+}
+
+
+
+/* Lassú gördülés menün */
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* SZÍNES DEKOR FOLTOK */
+body::before {
+    content: "";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 10% 20%, rgba(255,77,166,0.2), transparent 40%),
+        radial-gradient(circle at 90% 30%, rgba(255,140,66,0.2), transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(255,77,166,0.15), transparent 40%);
+    z-index: -1;
+}
+
+/* HEADER SLIDESHOW */
+header {
+    height: 90vh;
+    position: relative;
+    color: white;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out, transform 6s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+    transform: scale(1.1); /* EZ A VARÁZSLAT */
+}
+
+/* SZOFT GRADIENT (nem csík!) */
+header::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+    top: 0;
+}
+
+/* SZÖVEG */
+.header-content {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+}
+
+.header-content p {
+    max-width: 500px;
+    margin: 10px auto;
+}
+
+h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 3.5em;
+}
+
+h2 {
+    text-align: center;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+/* elegáns vonal alatta */
+h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 2px;
+    margin: 10px auto 0;
+    background: linear-gradient(#ff4d74, #f7ae41);
+    border-radius: 2px;
+}
+
+#countdown {
+    margin-top: 15px;
+    font-size: 1.5em;
+}
+
+/* KÁRTYA */
+
+
+.card {
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(10px);
+    margin: 40px auto;
+    max-width: 900px;
+    padding: 30px;
+    border-radius: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    text-align: center;
+    scroll-margin-top: 40px;
+
+    transition: all 0.4s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+
+.card:last-of-type {
+    background: linear-gradient(135deg, rgba(255,77,166,0.15), rgba(255,140,66,0.15));
+    border: 1px solid rgba(255,77,166,0.2);
+}
+
+.card:first-of-type {
+    border: 1px solid rgba(212,175,55,0.3);
+}
+
+/* GOMB */
+.button {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 999px;
+
+    background: rgba(255,255,255,0.7);
+    color: #333;
+
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+
+    border: 1px solid rgba(0,0,0,0.08);
+    backdrop-filter: blur(8px);
+
+    transition: all 0.3s ease;
+}
+
+/* hover */
+.button:hover {
+    background: linear-gradient(135deg, #ff4d74, #f7ae41);
+    color: white;
+
+    box-shadow: 0 0 0 4px rgba(255,77,116,0.15),
+                0 10px 25px rgba(0,0,0,0.15);
+}
+
+
+/* TÉRKÉP */
+iframe {
+    width: 100%;
+    height: 250px;
+    border: none;
+    border-radius: 15px;
+    margin-top: 10px;
+}
+
+/* ===== TIMELINE ===== */
+.timeline {
+    list-style: none;
+    padding: 0;
+    margin: 30px auto; 
+    position: relative;
+    text-align: left;
+    max-width: 500px;
+}
+
+/* vonal */
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(#d4af37, #f7e7a0);
+}
+
+/* elemek */
+
+.timeline li {
+    position: relative;
+    margin-bottom: 25px;
+    padding-left: 60px;
+
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    gap: 15px;
+
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.6s forwards;
+}
+
+
+/* kör */
+.timeline li::before {
+    content: "";
+    position: absolute;
+    left: 13px;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    background: white;
+    border: 2px solid #d4af37;
+    border-radius: 50%;
+}
+
+/* idő */
+.timeline li span {
+    min-width: 90px;
+    text-align: right;
+    font-weight: bold;
+    color: #333;
+}
+
+
+/* animáció késleltetés */
+.timeline li:nth-child(1) { animation-delay: 0.2s; }
+.timeline li:nth-child(2) { animation-delay: 0.4s; }
+.timeline li:nth-child(3) { animation-delay: 0.6s; }
+.timeline li:nth-child(4) { animation-delay: 0.8s; }
+.timeline li:nth-child(5) { animation-delay: 1s; }
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fődátum formátuma */
+.date {
+    font-size: 1.8em;
+    margin: 15px 0 25px;
+    letter-spacing: 3px;
+    font-weight: 500;
+
+
+    opacity: 0;
+    transform: translateY(10px);
+
+    animation: fadeUp 1s ease forwards;
+    animation-delay: 0.8s;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* MENU ICON */
+.menu-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+/* vonalak */
+.menu-toggle span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: white;
+    margin: 5px 0;
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
+/* AKTÍV ÁLLAPOT (X lesz belőle) */
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+
+/* SIDE MENU */
+#sideMenu {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 100%;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    padding-top: 80px;
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s;
+    z-index: 999;
+    box-shadow: -10px 0 30px rgba(0,0,0,0.15);
+}
+
+/* OPEN STATE */
+#sideMenu.active {
+    right: 0;
+    margin-bottom: 5px;
+}
+
+/* LINKS */
+#sideMenu a {
+    padding: 15px 25px;
+    text-decoration: none;
+    color: #333;
+    font-size: 1.1em;
+    transition: 0.2s;
+}
+
+#sideMenu a:hover {
+    background: linear-gradient(135deg, #ff4d74, #f7ae41);
+    color: white;
+}
+
+#overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+    z-index: 998;
+}
+
+/* amikor aktív */
+#overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+</style>
+</head>
+
+<body>
+
+  <!-- MENU megnyitásakor halványítás -->  
+<div id="overlay" onclick="toggleMenu()"></div>
+
+<!-- MENU ICON -->
+<div class="menu-toggle" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<!-- SIDE MENU -->
+<nav id="sideMenu">
+    <a href="#info">Tudnivalók</a>
+    <a href="#program">Program</a>
+    <a href="#helyszin">Helyszínek</a>
+    <a href="#rsvp">Visszajelzés</a>
+</nav>
+
+<header>
+
+<!-- KÉPEK -->
+<div class="slide active" style="background-image: url('IMG_2965.jpeg');"></div>
+<div class="slide" style="background-image: url('IMG_8458.jpeg');"></div>
+<div class="slide" style="background-image: url('IMG_2655.jpeg');"></div>
+
+
+<div class="header-content">
+<h1>Enikő & Gergő </h1>
+
+<p class="date">2026. augusztus 8.</p>
+
+<p><strong>Szeretettel meghívunk életünk egyik legfontosabb napjára!</strong></p>
+
+<p>Alig várjuk, hogy együtt ünnepeljünk Veletek ❤️</p>
+
+<div id="countdown"></div>
+</div>
+
+</header>
+
+<div class="card" id="info">
+<h2>Fontos tudnivalók</h2>
+
+<p><strong>Helyszínek:</strong></p>
+<p>Templomi szertartás – Abony</p>
+<p>Lagzi és programok – Kincsem Lovaspark</p>
+
+<p style="margin-top:15px;">
+Kérjük, hogy minél előbb jelezzetek vissza a weboldal alján található felületen.
+</p>
+
+</div>
+
+<div class="card" id="program">
+<h2> Program</h2>
+
+<ul class="timeline">
+    <li><span>15:00</span> Templomi szertartás - Abony</li>
+    <li><span>16:30–17:30</span> Vendégvárás - Tápiószentmárton</li>
+    <li><span>18:15</span> Polgári szertartás</li>
+    <li><span>19:30</span> Vacsora</li>
+    <li><span>Estétől</span> Ünneplés hajnalig</li>
+</ul>
+
+</div>
+
+<div class="card" id="helyszin">
+<h2> Templom</h2>
+<p>Abony, Kossuth Lajos tér 14</p>
+
+<a class="button" href="https://www.google.com/maps/dir/?api=1&destination=Abony+Kossuth+Lajos+tér+14" target="_blank">
+Megnyitás térképen
+</a>
+
+<iframe src="https://www.google.com/maps?q=Abony+Kossuth+Lajos+tér+14&output=embed"></iframe>
+</div>
+
+<div class="card">
+<h2>Lakodalom</h2>
+<p>Tápiószentmárton, Kincsem Lovaspark</p>
+
+<a class="button" href="https://www.google.com/maps/dir/?api=1&destination=Kincsem+Lovaspark+Tápiószentmárton" target="_blank">
+Megnyitás térképen
+</a>
+
+<iframe src="https://www.google.com/maps?q=Kincsem+Lovaspark+Tápiószentmárton&output=embed"></iframe>
+</div>
+
+
+<div class="card" id="rsvp">
+<h2>Visszajelzés</h2>
+
+<p>Nagyon örülnénk, ha visszajeleznél, hogy velünk tartasz-e ezen a különleges napon ❤️</p>
+
+<a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLSdWqFr043w-YgNTTEb6XEO8hBLmn5iZO7o8sJYNRYP4ercPTQ/viewform" target="_blank">
+Visszajelzés megadása
+</a>
+
+</div>
+
+<script>
+
+/* 1️⃣ SLIDESHOW (képek váltása) */
+let slides = document.querySelectorAll(".slide");
+let index = 0;
+
+if (slides.length > 0) {
+    setInterval(() => {
+        slides[index].classList.remove("active");
+        index = (index + 1) % slides.length;
+        slides[index].classList.add("active");
+    }, 4000);
+}
+
+
+/* 2️⃣ VISSZASZÁMLÁLÓ */
+const targetDate = new Date("2026-08-08T15:00:00").getTime();
+
+setInterval(() => {
+    const now = new Date().getTime();
+    const diff = targetDate - now;
+
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff/(1000*60*60))%24);
+    const minutes = Math.floor((diff/(1000*60))%60);
+
+    document.getElementById("countdown").innerHTML =
+        `⏳ ${days} nap ${hours} óra ${minutes} perc`;
+}, 1000);
+
+
+/* 3️⃣ FADE-IN ANIMÁCIÓ (lefelé görgetésnél) */
+const cards = document.querySelectorAll(".card");
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = "translateY(0)";
+        }
+    });
+});
+
+cards.forEach(card => {
+    card.style.opacity = 0;
+    card.style.transform = "translateY(30px)";
+    card.style.transition = "all 0.6s ease";
+    observer.observe(card);
+});
+
+
+/* 4️⃣ MENÜ */
+function toggleMenu() {
+    document.getElementById("sideMenu").classList.toggle("active");
+    document.getElementById("overlay").classList.toggle("active");
+    document.querySelector(".menu-toggle").classList.toggle("active");
+}
+
+
+
+</script>
+
+</body>
+</html>
