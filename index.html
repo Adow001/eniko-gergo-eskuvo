@@ -171,15 +171,6 @@ h2::after {
 }
 
 
-/* TÉRKÉP */
-iframe {
-    width: 100%;
-    height: 250px;
-    border: none;
-    border-radius: 15px;
-    margin-top: 10px;
-}
-
 /* ===== TIMELINE ===== */
 .timeline {
     list-style: none;
@@ -457,7 +448,6 @@ iframe {
 </header>
 
 <div class="card" id="info">
-<div class="card" id="info">
 <h2>Fontos tudnivalók</h2>
 
 <div class="info-grid">
@@ -508,25 +498,30 @@ Kérjük, hogy minél előbb jelezzetek vissza a weboldal alján található fel
 </div>
 
 <div class="card" id="helyszin">
-<h2> Templom</h2>
+<h2>Templom</h2>
+
 <p>Abony, Kossuth Lajos tér 14</p>
 
-<a class="button" href="https://www.google.com/maps/dir/?api=1&destination=Abony+Kossuth+Lajos+tér+14" target="_blank">
-Megnyitás térképen
+<a class="button"
+href="#"
+onclick="openMaps('Abony Kossuth Lajos tér 14'); return false;">
+📍 Útvonaltervezés indítása
 </a>
 
-<iframe src="https://www.google.com/maps?q=Abony+Kossuth+Lajos+tér+14&output=embed"></iframe>
 </div>
 
 <div class="card">
+
 <h2>Lakodalom</h2>
+
 <p>Tápiószentmárton, Kincsem Lovaspark</p>
 
-<a class="button" href="https://www.google.com/maps/dir/?api=1&destination=Kincsem+Lovaspark+Tápiószentmárton" target="_blank">
-Megnyitás térképen
+<a class="button"
+href="#"
+onclick="openMaps('Kincsem Lovaspark Tápiószentmárton'); return false;">
+📍 Útvonaltervezés indítása
 </a>
 
-<iframe src="https://www.google.com/maps?q=Kincsem+Lovaspark+Tápiószentmárton&output=embed"></iframe>
 </div>
 
 
@@ -602,11 +597,11 @@ function toggleMenu() {
     document.getElementById("sideMenu").classList.toggle("active");
     document.getElementById("overlay").classList.toggle("active");
     document.querySelector(".menu-toggle").classList.toggle("active");
-    document.querySelectorAll("#sideMenu a").forEach(link => {
+}
+
+document.querySelectorAll("#sideMenu a").forEach(link => {
     link.addEventListener("click", toggleMenu);
 });
-
-}
 
 const infoBoxes = document.querySelectorAll(".info-box");
 
@@ -629,6 +624,34 @@ if (infoBoxes.length > 0) {
     infoObserver.observe(infoBoxes[0]);
 }
 
+function openMaps(destination) {
+
+    // Android + Google Maps alkalmazás
+    if (/Android/i.test(navigator.userAgent)) {
+
+        window.location.href =
+        "intent://maps.google.com/maps?daddr=" +
+        encodeURIComponent(destination) +
+        "#Intent;scheme=https;package=com.google.android.apps.maps;end";
+
+        // Ha nincs Google Maps telepítve, 1 mp múlva webes verzió
+        setTimeout(function () {
+            window.location.href =
+            "https://www.google.com/maps/dir/?api=1&destination=" +
+            encodeURIComponent(destination);
+        }, 1000);
+
+    } else {
+
+        // iPhone, PC stb.
+        window.open(
+            "https://www.google.com/maps/dir/?api=1&destination=" +
+            encodeURIComponent(destination),
+            "_blank"
+        );
+
+    }
+}
 
 </script>
 
